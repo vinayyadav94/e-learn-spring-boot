@@ -1,10 +1,15 @@
 package com.elearn.app.services;
 
 import com.elearn.app.dtos.CategoryDto;
+import com.elearn.app.dtos.CustomPaginationResponse;
 import com.elearn.app.entities.Category;
 import com.elearn.app.exceptions.ResourceNotFoundException;
 import com.elearn.app.repositories.CategoryRepo;
+
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -38,9 +43,28 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public List<CategoryDto> getAll() {
-        List<Category> all = categoryRepo.findAll();
-        return all.stream().map(category-> modelMapper.map(category, CategoryDto.class)).collect(Collectors.toList());
+    public CustomPaginationResponse<CategoryDto> getAll(int pageNumber, int pageSize, String sortBy) {
+        //sorting
+        Sort sort = Sort.by(sortBy).ascending();
+        //page request for pagination
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
+        
+        Page<Category> categoryPage = categoryRepo.findAll(pageRequest);
+
+        List<Category> categoryList = categoryPage.getContent();
+
+        List<CategoryDto> categoryListDto = categoryList.stream().map(category-> modelMapper.map(category, CategoryDto.class)).collect(Collectors.toList());
+
+        CustomPaginationResponse<CategoryDto> customPaginationResponse = new CustomPaginationResponse<>();
+
+        customPaginationResponse.setContent(categoryListDto);
+        customPaginationResponse.setPageNumber(categoryPage.getNumber());
+        customPaginationResponse.setPageSize(categoryPage.getSize());
+        customPaginationResponse.setTotalElements(categoryPage.getTotalElements());
+        customPaginationResponse.setTotalPages(categoryPage.getTotalPages());
+        customPaginationResponse.setLast(categoryPage.isLast());
+
+        return customPaginationResponse;
     }
 
     @Override

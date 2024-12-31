@@ -7,7 +7,9 @@ import com.elearn.app.repositories.CourseRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +26,9 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public CourseDto create(CourseDto courseDto) {
+        String courseId = UUID.randomUUID().toString();
+        courseDto.setId(courseId);
+        courseDto.setCreateddate(new Date());
         Course savedCourse = courseRepo.save(dtoToEntity(courseDto));
         return entityTODto(savedCourse);
     }
@@ -31,9 +36,7 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public List<CourseDto> getAll() {
         List<Course> courses = courseRepo.findAll();
-
         //convert all course i.e. list into course dto
-
         List<CourseDto> courseListDto = courses
                 .stream().
                 map(course ->
@@ -45,7 +48,8 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public CourseDto update(CourseDto dto, String courseId) {
-        return null;
+        Course course = courseRepo.findById(courseId).orElseThrow(()-> new ResourceNotFoundException("course not found"));
+        return entityTODto(course);
     }
 
     @Override
@@ -81,5 +85,11 @@ public class CourseServiceImpl implements CourseService{
 
         Course course = modelMapper.map(dto, Course.class);
         return course;
+    }
+
+    @Override
+    public CourseDto getCourse(String courseId) {
+        Course course = courseRepo.findById(courseId).orElseThrow(()-> new ResourceNotFoundException("course not found"));
+        return entityTODto(course);
     }
 }

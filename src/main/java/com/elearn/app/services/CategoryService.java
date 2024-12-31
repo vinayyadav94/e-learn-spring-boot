@@ -1,14 +1,13 @@
 package com.elearn.app.services;
 
 import com.elearn.app.dtos.CategoryDto;
-
-import java.util.List;
+import com.elearn.app.dtos.CustomPaginationResponse;
 
 public interface CategoryService {
 
     CategoryDto insert(CategoryDto categoryDto);
 
-    List<CategoryDto> getAll();
+    CustomPaginationResponse<CategoryDto> getAll(int pageNumber, int pageSize, String sortBy);
 
     CategoryDto get(String categoryId);
 

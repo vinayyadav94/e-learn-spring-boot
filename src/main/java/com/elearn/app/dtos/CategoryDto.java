@@ -2,6 +2,8 @@ package com.elearn.app.dtos;
 
 import java.util.Date;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,14 @@ import lombok.Setter;
 public class CategoryDto {
 
     private String id;
+    //the below validation will happen in 3 steps.
+    //1. add dependency "validation"
+    //2. validation apply with annotation on bean
+    //3. enable with @Valid annotation in controller
+    @NotEmpty(message = "title is required!")
+    @Size(min=3, max=50, message = "the title length should between 3 to 50 chars")
+    //@Email
+    //@Pattern(regexp="")
     private String title;
     private String desc;
     private Date addedDate;
