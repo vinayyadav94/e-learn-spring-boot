@@ -2,6 +2,8 @@ package com.elearn.app.dtos;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,8 @@ public class CategoryDto {
     //@Pattern(regexp="")
     private String title;
     private String desc;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy")
     private Date addedDate;
 
 }

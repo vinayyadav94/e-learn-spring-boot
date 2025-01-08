@@ -32,4 +32,14 @@ public class Course {
     @ManyToMany
     private List<Category> categoryList = new ArrayList<>();
 
+    public void addCategory(Category category){
+        categoryList.add(category);
+        category.getCourses().add(this); //this --> current course
+    }
+
+    public void removeCategory(Category category){
+        categoryList.remove(category);
+        category.getCourses().remove(this); //this --> current course
+    }
+
 }

@@ -15,5 +15,8 @@ public interface CourseRepo extends JpaRepository<Course, String> {
 
     //List<Course> findByCategoryId(String id);
 
+    //search course
+    List<Course> findByTitleContainingIgnoreCaseOrShortDescContainingIgnoreCase(String keyword, String keyword1);
+
 
 }

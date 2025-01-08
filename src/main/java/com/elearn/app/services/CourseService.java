@@ -2,7 +2,11 @@ package com.elearn.app.services;
 
 import com.elearn.app.dtos.CourseDto;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface CourseService {
 
@@ -17,5 +21,9 @@ public interface CourseService {
     void delete(String courseid);
 
     List<CourseDto> searchByTitle(String titleKeyword);
+
+    public CourseDto saveBanner(MultipartFile file, String courseId) throws IOException;
+
+    Resource getCourseBannerById(String courseId);
 
 }

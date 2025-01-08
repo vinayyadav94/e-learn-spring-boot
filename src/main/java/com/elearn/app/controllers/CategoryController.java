@@ -2,11 +2,14 @@ package com.elearn.app.controllers;
 
 import com.elearn.app.config.AppConstants;
 import com.elearn.app.dtos.CategoryDto;
+import com.elearn.app.dtos.CourseDto;
 import com.elearn.app.dtos.CustomMessage;
 import com.elearn.app.dtos.CustomPaginationResponse;
 import com.elearn.app.services.CategoryService;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -84,6 +87,24 @@ public class CategoryController {
         @RequestBody CategoryDto categoryDto) {
         CategoryDto updatedCategoryDto = categoryService.update(categoryDto, categoryId);
         return updatedCategoryDto;
+    }
+
+    @PostMapping("/{categoryId}/courses/{courseid}")
+    public ResponseEntity<CustomMessage> addCourseToCategory(
+        @PathVariable String categoryId,
+        @PathVariable String courseid
+    ){
+        categoryService.addCourseTocategory(categoryId, courseid);
+        
+        CustomMessage customMessage = new CustomMessage();
+        customMessage.setMessage("category course relationship updated");
+        customMessage.setSuccess(true);
+        return ResponseEntity.status(HttpStatus.OK).body(customMessage);
+    }
+
+    @GetMapping("/{categoryId}/courses")
+    public ResponseEntity<List<CourseDto>> getCoursesOfCatefory(@PathVariable String categoryId){
+        return ResponseEntity.ok(categoryService.getCoursesOfCat(categoryId));
     }
 
 }

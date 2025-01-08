@@ -20,7 +20,19 @@ public class Category {
     private Date addedDate;
 
     //relationship with course
-    @ManyToMany(mappedBy = "categoryList")
+    @ManyToMany(mappedBy = "categoryList", cascade = CascadeType.ALL)
     private List<Course> courses = new ArrayList<>();
+
+    public void addCourse(Course course){
+        //list me add kiya hai course
+        courses.add(course);
+        //course ki category list mein add kiya current category
+        course.getCategoryList().add(this); // this -> current category
+    }
+
+    public void removeCourse(Course course){
+        courses.remove(course);
+        course.getCategoryList().remove(this);
+    }
 
 }
