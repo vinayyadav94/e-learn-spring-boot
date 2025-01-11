@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  
+  <!-- Link to Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #333; /* Dark background color */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff; /* White text color for contrast */
+    }
+
+    .login-container {
+      background-color: #444; /* Darker background for the form */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      width: 350px;
+      text-align: center;
+    }
+
+    .login-container h2 {
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+      background-color: #555; /* Dark background for inputs */
+      color: #fff; /* Text color for inputs */
+    }
+
+    .input-field:focus {
+      border-color: #007BFF;
+      outline: none;
+    }
+
+    .input-field::placeholder {
+      color: #bbb; /* Placeholder text color */
+    }
+
+    .input-container {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #bbb;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .forgot-password {
+      margin-top: 10px;
+    }
+
+    .forgot-password a {
+      color: #007BFF;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
+
+    .login-icon {
+      font-size: 40px;
+      color: #007BFF;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <!-- Login Icon -->
+    <div class="login-icon">
+      <i class="fas fa-sign-in-alt"></i>
+    </div>
+    <h2>Login</h2>
+    <form th:action="@{'/client-login-process'}" method="POST">
+      <!-- Username field with icon -->
+      <div class="input-container">
+        <i class="fas fa-user input-icon"></i>
+        <input style="padding-left: 35px;" type="text" name="username" class="input-field" placeholder="Username" required />
+      </div>
+
+      <!-- Password field with icon -->
+      <div class="input-container">
+        <i class="fas fa-lock input-icon"></i>
+        <input style="padding-left: 35px;" type="password" name="userPassword" class="input-field" placeholder="Password" required />
+      </div>
+
+      <button type="submit" class="submit-btn">Login</button>
+    </form>
+    <div class="forgot-password">
+      <a href="#">Forgot Password?</a>
+    </div>
+  </div>
+
+</body>
+</html>
