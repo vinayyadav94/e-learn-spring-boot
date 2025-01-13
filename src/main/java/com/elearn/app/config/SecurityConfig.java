@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 //mport org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
+//import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +19,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity(debug = true)
 public class SecurityConfig {
+
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    public SecurityConfig(CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+    }
 
     @Bean
     public PasswordEncoder paasswordEncoder(){
@@ -69,7 +75,7 @@ public class SecurityConfig {
             // .anyRequest().authenticated();
         );
         //basic javascript based authentication.. not form based
-        httpSecurity.httpBasic(Customizer.withDefaults());
+        httpSecurity.httpBasic(auth -> auth.authenticationEntryPoint(customAuthenticationEntryPoint));
         //httpSecurity.formLogin(Customizer.withDefaults()); //default browser form based login
         //customize form based login
         httpSecurity.formLogin(form -> {
@@ -81,7 +87,12 @@ public class SecurityConfig {
             //form.successHandler(null);
             //form.failureHandler(null);
         });
-        httpSecurity.logout(logout -> logout.logoutUrl("/logout"));
+        //httpSecurity.logout(logout -> logout.logoutUrl("/logout"));
+
+        //configure custom authentication handler
+        // httpSecurity.exceptionHandling(ex -> {
+        //     ex.authenticationEntryPoint(customAuthenticationEntryPoint);
+        // });
         
         return httpSecurity.build();
     }
