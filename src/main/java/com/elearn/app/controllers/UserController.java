@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.elearn.app.dtos.UserDto;
 import com.elearn.app.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -21,6 +24,13 @@ public class UserController {
     }
 
     @PostMapping
+    @Operation(
+        summary = "Create new user",
+        description = "register new user"
+        //tags = {"new user"}
+    )
+    @ApiResponse(responseCode = "201", description = "new user created")
+    @ApiResponse(responseCode = "501", description = "Internal Server Error")
     public UserDto createUser(@RequestBody UserDto userDto){
 
         return userService.create(userDto);

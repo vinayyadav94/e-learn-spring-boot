@@ -22,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
+//import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import com.elearn.app.config.CustomAuthenticationEntryPoint;
@@ -95,13 +95,14 @@ public class SecurityConfig {
 
             UrlBasedCorsConfigurationSource configurationSource = new UrlBasedCorsConfigurationSource();
             configurationSource.registerCorsConfiguration("/**", config);
-            cor.configurationSource((CorsConfigurationSource) configurationSource);
+            //cor.configurationSource((CorsConfigurationSource) configurationSource);
         });
 
         httpSecurity.csrf(e -> e.disable());
         //routes/urls
         httpSecurity.authorizeHttpRequests(
-            auth -> auth.requestMatchers("/api/v1/auth/login").permitAll()
+            auth -> auth.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/**").hasAnyRole("GUEST", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/v1/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/**").hasRole("ADMIN")
